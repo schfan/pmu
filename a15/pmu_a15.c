@@ -29,8 +29,8 @@ static struct termios old, new;
 
 void main() {
 	event0 = INSTRUCTION;
-	manual_run();
-
+	//	manual_run();
+	auto_run();
 }
 void auto_run() {
 	int i = 1;
@@ -38,9 +38,8 @@ void auto_run() {
 	for (i = 1; i < 14; i++) {
 		set_events(i);	
 		signal(SIGCHLD, SIG_IGN);
-		if (fork == 0) {
-			execve("./data/coremark",NULL,NULL);
-		}
+		if (fork() == 0 )
+			execv("/data/coremark.exe",NULL);
 		for (j = 0; j < 40; j++){
 			pmu_start();
 			usleep(500000);
