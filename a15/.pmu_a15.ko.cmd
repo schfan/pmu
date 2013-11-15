@@ -1,1 +1,0 @@
-cmd_/home/spica/work/vexpress/code/pmu/a15/pmu_a15.ko := arm-linux-gnueabi-ld -EL -r  -T /home/spica/work/linaro-kernel/scripts/module-common.lds --build-id  -o /home/spica/work/vexpress/code/pmu/a15/pmu_a15.ko /home/spica/work/vexpress/code/pmu/a15/pmu_a15.o /home/spica/work/vexpress/code/pmu/a15/pmu_a15.mod.o
