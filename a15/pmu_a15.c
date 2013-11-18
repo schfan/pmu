@@ -37,9 +37,9 @@ void auto_run() {
 	int j = 0; //control the time of monitoring
 	for (i = 1; i < 14; i++) {
 		set_events(i);	
-		signal(SIGCHLD, SIG_IGN);
-		if (fork() == 0 )
-			execv("/data/coremark.exe",NULL);
+	//	signal(SIGCHLD, SIG_IGN);
+	//	if (fork() == 0 )
+	//		execv("/data/gcc_dry2",NULL);
 		for (j = 0; j < 40; j++){
 			pmu_start();
 			usleep(500000);
@@ -266,10 +266,9 @@ void print_counters(int id) {
 			printf("No valid test run ID. \n");
 			break;
 	}
-	printf("Number of Cycles: %lld\n", cycle_count);
-	printf("Number of Instructions: %lld\n", counter0);
-	printf("Instruction Per Cycle: %f\n", (float)counter0/cycle_count); 
-	printf("Every 1000 Instructions, there are:\n");
+	printf("Cycles: %lld\n", cycle_count);
+	printf("Instructions: %lld\n", counter0);
+	printf("IPC: %f\n", (float)counter0/cycle_count); 
 	printf("%s: %f\n", string1, (float)counter1*1000/counter0);	
 	printf("%s: %f\n", string2, (float)counter2*1000/counter0);	
 	printf("%s: %f\n", string3, (float)counter3*1000/counter0);	
