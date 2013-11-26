@@ -31,6 +31,7 @@ void main() {
 	event0 = INSTRUCTION;
 	//	manual_run();
 	auto_run();
+	//manual_run();
 }
 void auto_run() {
 	int i = 1;
@@ -112,8 +113,8 @@ void set_events(int id) {
 		case 7:
 			event1 = L1DTLB_MISS_LD;
 			event2 = L1DTLB_MISS_ST;
-			event3 = D2DCACHE_ACCESS_LD;
-			event4 = D2DCACHE_ACCESS_ST;
+			event3 = L2DCACHE_ACCESS_LD;
+			event4 = L2DCACHE_ACCESS_ST;
 			event5 = L2DCACHE_MISS_LD;
 			break;
 		case 8:
@@ -216,8 +217,8 @@ void print_counters(int id) {
 		case 7:
 			strcpy(string1, "L1DTLB_MISS_LD");
 			strcpy(string2, "L1DTLB_MISS_ST");
-			strcpy(string3, "D2DCACHE_ACCESS_LD");
-			strcpy(string4, "D2DCACHE_ACCESS_ST");
+			strcpy(string3, "L2DCACHE_ACCESS_LD");
+			strcpy(string4, "L2DCACHE_ACCESS_ST");
 			strcpy(string5, "L2DCACHE_MISS_LD");
 			break;
 		case 8:

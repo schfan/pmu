@@ -1,0 +1,1 @@
+cmd_/home/spica/work/vexpress/code/pmu/ipc-kernel/ipckernel.o := arm-linux-gnueabi-ld -EL    -r -o /home/spica/work/vexpress/code/pmu/ipc-kernel/ipckernel.o /home/spica/work/vexpress/code/pmu/ipc-kernel/ipc.o /home/spica/work/vexpress/code/pmu/ipc-kernel/v7_pmu.o 

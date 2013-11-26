@@ -29,7 +29,7 @@ static struct termios old, new;
 
 void main() {
 	event0 = INSTRUCTION;
-	//	manual_run();
+	//manual_run();
 	auto_run();
 }
 void auto_run() {

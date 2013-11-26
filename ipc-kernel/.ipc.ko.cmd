@@ -1,0 +1,1 @@
+cmd_/home/spica/work/vexpress/code/pmu/ipc-kernel/ipc.ko := arm-linux-gnueabi-ld -EL -r  -T /home/spica/work/linaro-kernel/scripts/module-common.lds --build-id  -o /home/spica/work/vexpress/code/pmu/ipc-kernel/ipc.ko /home/spica/work/vexpress/code/pmu/ipc-kernel/ipc.o /home/spica/work/vexpress/code/pmu/ipc-kernel/ipc.mod.o
