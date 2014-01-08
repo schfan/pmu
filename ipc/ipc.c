@@ -13,6 +13,7 @@
 void pmu_restart(void);
 void *auto_run(void *args);
 void *auto_write(void *args);
+void new_run(void);
 
 static unsigned long long int cycle0,insn0,cycle,insn;
 static float ipc[500];
@@ -22,21 +23,53 @@ static int ready, sleep_time, loop_time, loop_num;
 static int stop;
 
 void main() {
-	pthread_t thread1, thread2;
-	int iret1, iret2; 
+//	pthread_t thread1, thread2;
+//	int iret1, iret2; 
 
 	sleep_time = 1000;//100us
 	loop_time = 500;
-	loop_num = 3;
+	loop_num = 20;
 	stop = 0;
-
-	iret1 = pthread_create(&thread1, NULL, auto_run, NULL);
-	pthread_join(thread1, NULL);	
-	iret2 = pthread_create(&thread2, NULL, auto_write, NULL);
-	pthread_join(thread2, NULL);
+	new_run();
+//	iret1 = pthread_create(&thread1, NULL, auto_run, NULL);
+//	iret2 = pthread_create(&thread2, NULL, auto_write, NULL);
+//	pthread_join(thread1, NULL);	
+//	pthread_join(thread2, NULL);
 	exit(0);
 }
 
+void new_run(void){
+	FILE *f;
+	f = fopen("ipc.txt","w");
+        if (f == NULL){
+                printf("Error opening file!\n");
+                exit(1);
+        }
+	int j = 0; 
+	int i = 0; 	
+	float my_ipc;
+	uint64_t my_time;
+	struct timespec ts;
+	for (j = 0; j < loop_num; j++){
+		pmu_restart();
+                insn0 = 0;
+                cycle0 = 0;
+                i = 0;
+                for (i = 0; i < loop_time; i++){
+			insn = read_pmn(0); // Read counter 0
+                        cycle = read_ccnt(); // Read CCNT
+                        my_ipc = (float)(insn - insn0)/(cycle - cycle0);
+                        clock_gettime(CLOCK_REALTIME, &ts);
+                        my_time = (uint64_t)ts.tv_sec * 1000000LL + (uint64_t)ts.tv_nsec / 1000LL;
+			fprintf(f, "%lld %f\n", (unsigned long long)my_time, my_ipc);
+			cycle0 = cycle;
+                        insn0 = insn;
+                        usleep(sleep_time);
+		}
+	}
+	fclose(f);
+
+}
 void *auto_run(void *args) {
 	int j = 0; //control the time of monitoring
 	//signal(SIGCHLD, SIG_IGN);
@@ -66,28 +99,27 @@ void *auto_run(void *args) {
 
 void *auto_write(void *args){
 	FILE *f;
-	struct timespec ts = {0};
-	int i;
-	int length;
-	int read_sleep_time = 100000;//100ms
+	//struct timespec ts = {0};
+	int i,length;
+	int read_sleep_time = 1000;
+	length = loop_time;
 	//ts.tv_sec = 0;
 	//ts.tv_nsec = 10000; //1us
-	length = loop_time;
 	f = fopen("ipc.txt","w");
 	if (f == NULL){	
 		printf("Error opening file!\n");
 		exit(1);
 	}
-	//while(!stop) {	
+	while(!stop) {	
 	//	nanosleep(&ts, (struct timespec *)NULL);
-//		usleep(read_sleep_time);
+		usleep(read_sleep_time);
 		if (ready == 1){
 			for (i = 0; i < length; i++){
 				fprintf(f, "%lld %f\n", (unsigned long long)current_time[i], ipc[i]);
 			}
-			ready = 0;
+		ready = 0;
 		}
-//	}
+	}
 	fclose(f);
 }	
 

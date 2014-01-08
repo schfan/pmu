@@ -91,7 +91,7 @@ int __init init_module(void) {
 	stop = 0;
 	printk("I am loaded.\n");
 	auto_run();
-	auto_write();
+//	auto_write();
 	return 0;
 }
 
